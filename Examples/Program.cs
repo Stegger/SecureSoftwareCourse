@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Examples.Encryption;
 
 namespace Examples
 {
@@ -9,11 +10,66 @@ namespace Examples
     {
         static void Main(string[] args)
         {
+            MyRsaEncryptionService rsaEncryptionService = new MyRsaEncryptionService();
+            
+            Console.WriteLine(rsaEncryptionService.GetPublicAndPrivateRsaParameters());
+            Console.WriteLine();
+            Console.WriteLine(rsaEncryptionService.GetPublicRsaParameters());
+
+
+            // Program.HashingOne();
+
+            //FailingExampleInvalidKeyLength();
+
+            //HowLongIsAnAesKey();
+        }
+
+        private static void HowLongIsAnAesKey()
+        {
+            MyAesEncryptionService service = new MyAesEncryptionService();
+
+            string key = service.GetKey();
+
+
+            byte[] bytes = Convert.FromBase64String(key);
+
+            Console.WriteLine("Key length: " + bytes.Length + " bytes");
+            Console.WriteLine("Key length: " + bytes.Length * 8 + " bits");
+        }
+
+        private static void FailingExampleInvalidKeyLength()
+        {
+            byte[] key = Utf8StringToBytes("PASSWORDPASSWORDPASSWORDPASSWORD");
+            byte[] iv;
+            MyAesEncryptionService encryptionService = new MyAesEncryptionService(key, out iv);
+            
+            string secret = "Hello secure software developers!";
+            byte[] messageBytes = encryptionService.EncryptMessage(secret);
+            string message = Program.BytesToString(messageBytes);
+
+            string decrypted = encryptionService.DecryptMessage(messageBytes);
+            
+            
+            Console.WriteLine("Key: " + key);
+            Console.WriteLine("IV: " + iv);
+            Console.WriteLine("Message: " + message);
+            Console.WriteLine("Decrypted message: " + decrypted);
+        }
+
+        private static byte[] Utf8StringToBytes(string input)
+        {
+            var utf8 = new UTF8Encoding();
+            byte[] key = utf8.GetBytes(input);
+            return key;
+        }
+
+        private static void HashingOne()
+        {
             Program program = new Program();
             program.SimpleHashExample();
-            
+
             Console.WriteLine("");
-            
+
             program.TegridyHash();
         }
 
@@ -24,12 +80,13 @@ namespace Examples
             HashAlgorithm sha = SHA256.Create();
             byte[] bytes = sha.ComputeHash(UTF8Encoding.UTF8.GetBytes(input));
 
-            string hash = HashBytesToString(bytes);
+            string hash = BytesToString(bytes);
 
             Console.WriteLine(hash);
         }
 
-        private static string HashBytesToString(byte[] bytes)
+
+        private static string BytesToString(byte[] bytes)
         {
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < bytes.Length; i++)
@@ -45,20 +102,17 @@ namespace Examples
         {
             byte[] tegridyA = File.ReadAllBytes("C:/Users/stegg/Desktop/Workspace/Tegridy_A.zip");
             byte[] tegridyB = File.ReadAllBytes("C:/Users/stegg/Desktop/Workspace/Tegridy_B.zip");
-            
+
             HashAlgorithm sha = SHA256.Create();
-            
+
             byte[] bytesHashA = sha.ComputeHash(tegridyA);
             byte[] bytesHashB = sha.ComputeHash(tegridyB);
 
-            string hashA = HashBytesToString(bytesHashA);
-            string hashB = HashBytesToString(bytesHashB);
-            
+            string hashA = BytesToString(bytesHashA);
+            string hashB = BytesToString(bytesHashB);
+
             Console.WriteLine("Tegridy_A: " + hashA);
             Console.WriteLine("Tegridy_B: " + hashB);
-            
         }
-        
-        
     }
 }

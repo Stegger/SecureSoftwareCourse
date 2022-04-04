@@ -35,6 +35,11 @@ namespace Examples.Encryption
             _iv = iv = _aes.IV;
         }
         
+        /// <summary>
+        /// Creates a service using the given key and IV
+        /// </summary>
+        /// <param name="key">Key in bytes, must be 32 bytes (256 bits) long</param>
+        /// <param name="iv">Initialization vector must have same length as the block (16 bytes default)</param>
         public MyAesEncryptionService(byte[] key, byte[] iv)
         {
             _key = key;
