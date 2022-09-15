@@ -10,18 +10,21 @@ namespace Examples
     {
         static void Main(string[] args)
         {
-            MyRsaEncryptionService rsaEncryptionService = new MyRsaEncryptionService();
-            
-            Console.WriteLine(rsaEncryptionService.GetPublicAndPrivateRsaParameters());
-            Console.WriteLine();
-            Console.WriteLine(rsaEncryptionService.GetPublicRsaParameters());
+            String key = "GMP/zp9aviGP5oxKgxl8cGHP4UYptPjJ+dXC7H+pTQo=";
+            String iv = "c9lkAITOp7Ey0CVMTUYUgQ==";
+            String cipher = "fn8fJbHF26I81jF2nJj6lA==";
 
+            MyAesEncryptionService encrypt = new MyAesEncryptionService(key, iv);
 
-            // Program.HashingOne();
+            //See Cipher
+            byte[] seeSecret = Convert.FromBase64String(cipher);
+            Console.WriteLine(encrypt.DecryptMessage(seeSecret));
 
-            //FailingExampleInvalidKeyLength();
+            //Make Cipher
+            byte[] makeCipher = encrypt.EncryptMessage("Andys mor laver UWU face når hun får min pik ;)");
+            string makeCipherToBase = Convert.ToBase64String(makeCipher);
+            Console.WriteLine(makeCipherToBase);
 
-            //HowLongIsAnAesKey();
         }
 
         private static void HowLongIsAnAesKey()
