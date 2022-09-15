@@ -10,23 +10,25 @@ namespace Examples
     {
         static void Main(string[] args)
         {
-            /*
+            
             String key = "GMP/zp9aviGP5oxKgxl8cGHP4UYptPjJ+dXC7H+pTQo=";
-            String iv = "c9lkAITOp7Ey0CVMTUYUgQ==";
+            String iv1 = "c9lkAITOp7Ey0CVMTUYUgQ==";
             String cipher = "fn8fJbHF26I81jF2nJj6lA==";
 
-            MyAesEncryptionService encrypt = new MyAesEncryptionService(key, iv);
+            MyAesEncryptionService encrypt = new MyAesEncryptionService(key, iv1);
 
             //See Cipher
             byte[] seeSecret = Convert.FromBase64String(cipher);
-            Console.WriteLine(encrypt.DecryptMessage(seeSecret));
+            Console.WriteLine("ENCRYPTED: " + encrypt.DecryptMessage(seeSecret));
 
             //Make Cipher
             byte[] makeCipher = encrypt.EncryptMessage("Andys mor laver UWU face når hun får min pik ;)");
             string makeCipherToBase = Convert.ToBase64String(makeCipher);
-            Console.WriteLine(makeCipherToBase);
-            */
-
+            Console.WriteLine("CREATED: " + makeCipherToBase);
+            
+            
+            
+            //With secret number, modulus
             string salt = "D9PCVVBleVC+rz5f+VKcDVXl/ACDmTD3ljULHnDPlO/t8qzmzuCapqnnhjKM4GXobAIXLG2DmdnstifZmwp0E6V/nJ9zQWjjYu3K/Mq+YGlcWfuI9guw/B9vJ6VGu3OhVbzKrQMoGCpoT7iWX0qVqBbxyetXL+jAG58DUIXoy9c=";
             string iv = "C4Eh5yNcSDPva6YEcfLp2g==";
             double s = 13;
@@ -44,7 +46,7 @@ namespace Examples
             byte[] byteCipherText = Convert.FromBase64String(cipherText);
             string message = encryptionService.DecryptMessage(byteCipherText);
             
-            Console.WriteLine(message);
+            Console.WriteLine("MODULUS MESSAGE: " + message);
 
         }
 
