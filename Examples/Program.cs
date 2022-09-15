@@ -10,6 +10,7 @@ namespace Examples
     {
         static void Main(string[] args)
         {
+            /*
             String key = "GMP/zp9aviGP5oxKgxl8cGHP4UYptPjJ+dXC7H+pTQo=";
             String iv = "c9lkAITOp7Ey0CVMTUYUgQ==";
             String cipher = "fn8fJbHF26I81jF2nJj6lA==";
@@ -24,6 +25,26 @@ namespace Examples
             byte[] makeCipher = encrypt.EncryptMessage("Andys mor laver UWU face når hun får min pik ;)");
             string makeCipherToBase = Convert.ToBase64String(makeCipher);
             Console.WriteLine(makeCipherToBase);
+            */
+
+            string salt = "D9PCVVBleVC+rz5f+VKcDVXl/ACDmTD3ljULHnDPlO/t8qzmzuCapqnnhjKM4GXobAIXLG2DmdnstifZmwp0E6V/nJ9zQWjjYu3K/Mq+YGlcWfuI9guw/B9vJ6VGu3OhVbzKrQMoGCpoT7iWX0qVqBbxyetXL+jAG58DUIXoy9c=";
+            string iv = "C4Eh5yNcSDPva6YEcfLp2g==";
+            double s = 13;
+
+            string strS = "" + s;
+
+            PasswordToKeyService keyService = new PasswordToKeyService();
+
+            byte[] byteSalt = Convert.FromBase64String(salt);
+            byte[] byteKey = keyService.GetKey(strS, byteSalt, 128);
+            byte[] byteIv = Convert.FromBase64String(iv);
+            MyAesEncryptionService encryptionService = new MyAesEncryptionService(byteKey, byteIv);
+
+            string cipherText = "gsbd479iAC5Xcysa1altFBxgO5mGWdYtkt+EsetgjKVU5ajxolfwiOKVeeIpzo9P";
+            byte[] byteCipherText = Convert.FromBase64String(cipherText);
+            string message = encryptionService.DecryptMessage(byteCipherText);
+            
+            Console.WriteLine(message);
 
         }
 
